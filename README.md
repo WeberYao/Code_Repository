@@ -5,7 +5,7 @@
 ##目录：   
 
 
-###1.发邮件python脚本：
+###1.发邮件python脚本:   
 ###2.Innobackup脚本：
 
 1.发邮件python脚本：   
