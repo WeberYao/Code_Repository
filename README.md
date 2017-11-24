@@ -19,7 +19,12 @@ python会自动调用sendmail这个方法，不需要系统另外安装sendmail�
 sendmail_test.py ： 将里面的密码修改成登入密码   
 
 ##### 2.Innobackup脚本：   
-每日定时任务，246全备，1357增量备份，并删除7天之前的数据
+每日定时任务，246全备，1357增量备份，并删除7天之前的数据    
+
+##### 3.  zabbix_percona   
+官网的Mysql模板不支持zabbix3.0，使用2.4版本的监控模板
+
+
   
 ### MarkDown syntax
 
