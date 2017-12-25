@@ -1,0 +1,89 @@
+#!/bin/bash
+# PHP-Fpm Startup script for CentOS
+# chkconfig: - 85 15
+# description: PHP 5.3 FastCgi Manage
+# processname: php-fpm
+# pidfile: /var/run/php-fpm.pid
+# config: /etc/php/php-fpm.conf
+
+php_fpm_bin=/usr/local/php5/sbin/php-fpm
+php_fpm_pid=/var/run/php-fpm5.pid
+php_config=/usr/local/php5/etc/php.ini
+
+RETVAL=0
+prog="php-fpm"
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] && exit 0
+
+[ -x $nginxd ] || exit 0
+
+# Start php-fpm daemons functions.
+start() {
+
+if [ -e $php_fpm_pid ];then
+   echo "php-fpm already running...."
+   exit 1
+fi
+   echo -n $"Starting $prog: "
+   daemon $php_fpm_bin -c ${php_config}
+   RETVAL=$?
+   echo
+   [ $RETVAL = 0 ] && touch /var/lock/subsys/php-fpm
+   return $RETVAL
+}
+
+# Stop php-fpm daemons functions.
+stop() {
+        echo -n $"Stopping $prog: "
+        killproc $php_fpm_bin
+        RETVAL=$?
+        echo
+        [ $RETVAL = 0 ] && rm -f /var/lock/subsys/php-fpm /var/run/php-fpm.pid
+}
+
+# reload php-fpm service functions.
+reload() {
+
+    echo -n $"Reloading $prog: "
+    #kill -HUP `cat ${php_fpm_pid}`
+    killproc $php_fpm_bin -USR2
+    RETVAL=$?
+    echo
+
+}
+
+# See how we were called.
+case "$1" in
+start)
+        start
+        ;;
+
+stop)
+        stop
+        ;;
+
+reload)
+        reload
+        ;;
+
+restart)
+        stop
+        start
+        ;;
+
+status)
+        status $prog
+        RETVAL=$?
+        ;;
+*)
+        echo $"Usage: $prog {start|stop|restart|reload|status|help}"
+        exit 1
+esac
+exit $RETVAL
